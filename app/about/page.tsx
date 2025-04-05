@@ -23,7 +23,7 @@ export default function AboutPage() {
   }, [])
 
   // mountedとisMobileを使用する例
-  const displayMode = mounted ? (isMobile ? "モバイル表示" : "デスクトップ表示") : ""
+  // const displayMode = mounted ? (isMobile ? "モバイル表示" : "デスクトップ表示") : ""
 
   return (
     <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "40px 20px" }}>
