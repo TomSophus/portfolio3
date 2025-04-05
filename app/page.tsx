@@ -1,103 +1,267 @@
-import Image from "next/image";
+"use client"
+
+import Link from "next/link"
+import { useEffect, useState } from "react"
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [mounted, setMounted] = useState(false)
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  return (
+    <div
+      style={{
+        maxWidth: "900px",
+        margin: "0 auto",
+        padding: "0 20px",
+        marginTop: "80px", // 上部の余白をさらに増やす
+      }}
+    >
+      <div
+        style={{
+          marginBottom: "150px", // セクション間の余白をさらに増やす
+          textAlign: "center",
+        }}
+      >
+        <h1
+          style={{
+            fontSize: "40px", // フォントサイズをさらに大きく
+            marginBottom: "80px", // 見出しと段落の間の余白を大幅に増やす
+            fontWeight: "700",
+            letterSpacing: "0.05em",
+            textShadow: "0 1px 2px rgba(0, 0, 0, 0.1)",
+            lineHeight: "1.4",
+          }}
+        >
+          Welocome to TomSophus's Portfolio
+        </h1>
+
+        <p
+          style={{
+            fontSize: "20px",
+            marginBottom: "100px", // 段落とボタンの間の余白を大幅に増やす
+            maxWidth: "650px",
+            margin: "0 auto 100px", // 下部マージンを大幅に増やす
+            lineHeight: "2.0",
+            color: "#333",
+          }}
+        >
+          アカデミアとビジネスの狭間で。
+          <br />
+          アカデミアの根本的革新性とビジネスの実践性を架橋し、最先端の研究成果を実社会の価値創造へと転換することで、学術界と産業界の間に新たな対話を生み出すことを目指しています。
+        </p>
+
+        <div
+          style={{
+            display: "flex",
+            gap: "30px", // ボタン間の余白をさらに増やす
+            justifyContent: "center",
+            marginBottom: "60px", // ボタン下の余白を大幅に増やす
+            flexWrap: "wrap",
+          }}
+        >
+          <Link
+            href="/works"
+            style={{
+              display: "inline-block",
+              padding: "16px 36px", // ボタンの内部余白をさらに増やす
+              background: "linear-gradient(135deg, #000 0%, #333 100%)",
+              color: "white",
+              textDecoration: "none",
+              borderRadius: "6px",
+              fontSize: "16px", // フォントサイズをさらに大きく
+              fontWeight: "500",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+              transition: "all 0.3s ease",
+              border: "none",
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.transform = "translateY(-2px)"
+              e.currentTarget.style.boxShadow = "0 6px 12px rgba(0, 0, 0, 0.15)"
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.transform = "translateY(0)"
+              e.currentTarget.style.boxShadow = "0 4px 6px rgba(0, 0, 0, 0.1)"
+            }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            プロジェクトを見る
+          </Link>
+          <Link
+            href="/contact"
+            style={{
+              display: "inline-block",
+              padding: "16px 36px", // ボタンの内部余白をさらに増やす
+              background: "transparent",
+              color: "black",
+              textDecoration: "none",
+              borderRadius: "6px",
+              fontSize: "16px", // フォントサイズをさらに大きく
+              fontWeight: "500",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
+              transition: "all 0.3s ease",
+              border: "1px solid rgba(0, 0, 0, 0.2)",
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.transform = "translateY(-2px)"
+              e.currentTarget.style.boxShadow = "0 6px 12px rgba(0, 0, 0, 0.1)"
+              e.currentTarget.style.borderColor = "rgba(0, 0, 0, 0.4)"
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.transform = "translateY(0)"
+              e.currentTarget.style.boxShadow = "0 4px 6px rgba(0, 0, 0, 0.05)"
+              e.currentTarget.style.borderColor = "rgba(0, 0, 0, 0.2)"
+            }}
           >
-            Read our docs
-          </a>
+            お問い合わせ
+          </Link>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+      </div>
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: "40px", // カード間の余白
+          maxWidth: "800px",
+          margin: "0 auto 80px", // 下部マージンをさらに増やす
+        }}
+      >
+        <div
+          style={{
+            padding: "35px",
+            borderRadius: "10px",
+            border: "1px solid rgba(0, 0, 0, 0.1)",
+            boxShadow: "0 4px 20px rgba(0, 0, 0, 0.05)",
+            transition: "all 0.3s ease",
+            position: "relative",
+            overflow: "hidden",
+            background: "linear-gradient(135deg, rgba(220, 220, 220, 0.3) 0%, rgba(220, 220, 220, 0.2) 100%)",
+          }}
+          onMouseOver={(e) => {
+            e.currentTarget.style.transform = "translateY(-5px)"
+            e.currentTarget.style.boxShadow = "0 8px 24px rgba(0, 0, 0, 0.1)"
+            e.currentTarget.style.borderColor = "rgba(0, 0, 0, 0.2)"
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.transform = "translateY(0)"
+            e.currentTarget.style.boxShadow = "0 4px 20px rgba(0, 0, 0, 0.05)"
+            e.currentTarget.style.borderColor = "rgba(0, 0, 0, 0.1)"
+          }}
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          <h3
+            style={{
+              fontSize: "20px",
+              marginBottom: "16px",
+              fontWeight: "600",
+              color: "#111",
+            }}
+          >
+            最新プロジェクト
+          </h3>
+          <p
+            style={{
+              marginBottom: "20px",
+              fontSize: "15px",
+              lineHeight: "1.8",
+              color: "#444",
+            }}
+          >
+            自然言語処理を活用した感情分析システム
+          </p>
+          <Link
+            href="/works"
+            style={{
+              color: "#000",
+              textDecoration: "none",
+              fontWeight: "500",
+              fontSize: "15px",
+              display: "inline-flex",
+              alignItems: "center",
+              position: "relative",
+              paddingBottom: "2px",
+              transition: "all 0.3s ease",
+              marginTop: "10px",
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.paddingLeft = "4px"
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.paddingLeft = "0"
+            }}
+          >
+            詳細を見る →
+          </Link>
+        </div>
+        <div
+          style={{
+            padding: "35px",
+            borderRadius: "10px",
+            border: "1px solid rgba(0, 0, 0, 0.1)",
+            boxShadow: "0 4px 20px rgba(0, 0, 0, 0.05)",
+            transition: "all 0.3s ease",
+            position: "relative",
+            overflow: "hidden",
+            background: "linear-gradient(135deg, rgba(220, 220, 220, 0.3) 0%, rgba(220, 220, 220, 0.2) 100%)",
+          }}
+          onMouseOver={(e) => {
+            e.currentTarget.style.transform = "translateY(-5px)"
+            e.currentTarget.style.boxShadow = "0 8px 24px rgba(0, 0, 0, 0.1)"
+            e.currentTarget.style.borderColor = "rgba(0, 0, 0, 0.2)"
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.transform = "translateY(0)"
+            e.currentTarget.style.boxShadow = "0 4px 20px rgba(0, 0, 0, 0.05)"
+            e.currentTarget.style.borderColor = "rgba(0, 0, 0, 0.1)"
+          }}
         >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          <h3
+            style={{
+              fontSize: "20px",
+              marginBottom: "16px",
+              fontWeight: "600",
+              color: "#111",
+            }}
+          >
+            最新論文
+          </h3>
+          <p
+            style={{
+              marginBottom: "20px",
+              fontSize: "15px",
+              lineHeight: "1.8",
+              color: "#444",
+            }}
+          >
+            「深層学習を用いた画像認識の新手法」
+          </p>
+          <Link
+            href="/publication"
+            style={{
+              color: "#000",
+              textDecoration: "none",
+              fontWeight: "500",
+              fontSize: "15px",
+              display: "inline-flex",
+              alignItems: "center",
+              position: "relative",
+              paddingBottom: "2px",
+              transition: "all 0.3s ease",
+              marginTop: "10px",
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.paddingLeft = "4px"
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.paddingLeft = "0"
+            }}
+          >
+            詳細を見る →
+          </Link>
+        </div>
+      </div>
     </div>
-  );
+  )
 }
+
