@@ -1,6 +1,4 @@
 "use client"
-
-import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 
@@ -14,7 +12,8 @@ const navigation = [
 ]
 
 export default function Header() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  // 未使用の変数を削除するか、実際に使用する
+  // const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
     <header
@@ -23,7 +22,6 @@ export default function Header() {
         padding: "15px 0",
         marginBottom: "40px",
         background: "linear-gradient(135deg, rgba(220, 220, 220, 0.3) 0%, rgba(220, 220, 220, 0.2) 100%)",
-        backdropFilter: "blur(10px)",
       }}
     >
       <div

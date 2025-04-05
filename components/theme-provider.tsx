@@ -10,8 +10,9 @@ interface ThemeProviderProps {
   children: React.ReactNode
   defaultTheme?: Theme
   enableSystem?: boolean
-  attribute?: string
-  disableTransitionOnChange?: boolean
+  // 未使用の変数を削除するか、実際に使用する
+  // attribute?: string
+  // disableTransitionOnChange?: boolean
 }
 
 const ThemeProviderContext = createContext<{
@@ -22,13 +23,7 @@ const ThemeProviderContext = createContext<{
   setTheme: () => null,
 })
 
-export function ThemeProvider({
-  children,
-  defaultTheme = "light",
-  enableSystem = true,
-  attribute = "class",
-  disableTransitionOnChange = false,
-}: ThemeProviderProps) {
+export function ThemeProvider({ children, defaultTheme = "light", enableSystem = true }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(defaultTheme)
 
   useEffect(() => {

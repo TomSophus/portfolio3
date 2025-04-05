@@ -4,11 +4,17 @@ import Link from "next/link"
 import { useEffect, useState } from "react"
 
 export default function Home() {
+  // mountedを使用するように修正
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setMounted(true)
-  }, [])
+    // mountedを使用する例（条件付きレンダリングなど）
+    if (mounted) {
+      // コンソールログを追加して変数を使用
+      console.log("Component is mounted")
+    }
+  }, [mounted]) // mountedを依存配列に追加
 
   return (
     <div
@@ -35,7 +41,7 @@ export default function Home() {
             lineHeight: "1.4",
           }}
         >
-          Welocome to TomSophus's Portfolio
+          Welocome to TomSophus&apos;s Portfolio
         </h1>
 
         <p
@@ -234,7 +240,7 @@ export default function Home() {
               color: "#444",
             }}
           >
-            「深層学習を用いた画像認識の新手法」
+            &ldquo;深層学習を用いた画像認識の新手法&rdquo;
           </p>
           <Link
             href="/publication"

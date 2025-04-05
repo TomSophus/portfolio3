@@ -5,6 +5,7 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 import NeuralNetworkAnimation from "@/components/neural-network-animation"
 
+// minchoを使用するように修正
 const mincho = Shippori_Mincho({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -21,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="ja">
+    <html lang="ja" className={mincho.className}>
       <body
         style={{
           margin: 0,

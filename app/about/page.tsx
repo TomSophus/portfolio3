@@ -22,6 +22,9 @@ export default function AboutPage() {
     return () => window.removeEventListener("resize", checkIfMobile)
   }, [])
 
+  // mountedとisMobileを使用する例
+  const displayMode = mounted ? (isMobile ? "モバイル表示" : "デスクトップ表示") : ""
+
   return (
     <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "40px 20px" }}>
       <div
@@ -60,7 +63,10 @@ export default function AboutPage() {
               ></span>
             )}
           </h1>
-          <p style={{ fontSize: "18px", color: "#444" }}>はじめまして、TomSophusと申します。研究でのプログラミング経験(Fortran90, MATLAB)を活かし、個人的な興味から趣味で深層学習を実装しています。</p>
+          <p style={{ fontSize: "18px", color: "#444" }}>
+            はじめまして、TomSophusと申します。研究でのプログラミング経験(Fortran90,
+            MATLAB)を活かし、個人的な興味から趣味で深層学習を実装しています。
+          </p>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: "40px" }}>
