@@ -14,6 +14,7 @@ export default function BackgroundAnimation() {
 
     // キャンバスをウィンドウサイズに合わせる
     const resizeCanvas = () => {
+      if (!canvas) return // ここでnullチェックを追加
       canvas.width = window.innerWidth
       canvas.height = window.innerHeight
     }
@@ -36,8 +37,9 @@ export default function BackgroundAnimation() {
       opacity: number
 
       constructor() {
-        this.x = Math.random() * canvas.width
-        this.y = Math.random() * canvas.height
+        // canvasがnullでないことを確認
+        this.x = Math.random() * (canvas?.width || window.innerWidth)
+        this.y = Math.random() * (canvas?.height || window.innerHeight)
         this.size = Math.random() * 5 + 1
         this.speedX = Math.random() * 0.2 - 0.1
         this.speedY = Math.random() * 0.2 - 0.1
@@ -49,6 +51,7 @@ export default function BackgroundAnimation() {
         this.y += this.speedY
 
         // 画面外に出たら反対側から再登場
+        if (!canvas) return // nullチェックを追加
         if (this.x < 0) this.x = canvas.width
         if (this.x > canvas.width) this.x = 0
         if (this.y < 0) this.y = canvas.height
@@ -56,6 +59,7 @@ export default function BackgroundAnimation() {
       }
 
       draw() {
+        if (!ctx) return // nullチェックを追加
         ctx.fillStyle = `rgba(0, 0, 0, ${this.opacity})`
         ctx.beginPath()
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2)
@@ -73,6 +77,7 @@ export default function BackgroundAnimation() {
 
     // パーティクルの更新と描画
     const animate = () => {
+      if (!ctx || !canvas) return // nullチェックを追加
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
       for (let i = 0; i < particlesArray.length; i++) {
@@ -88,6 +93,7 @@ export default function BackgroundAnimation() {
 
     // 近くのパーティクル同士を線で結ぶ
     const connectParticles = () => {
+      if (!ctx) return // nullチェックを追加
       for (let a = 0; a < particlesArray.length; a++) {
         for (let b = a; b < particlesArray.length; b++) {
           const dx = particlesArray[a].x - particlesArray[b].x
@@ -117,6 +123,5 @@ export default function BackgroundAnimation() {
     }
   }, [])
 
-  return <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full -z-10 opacity-30" aria-hidden="true" />
+  return <canvas ref={canvasRef} className="background-animation" aria-hidden="true" />
 }
-
