@@ -2,6 +2,7 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
+import { Github, Twitter, Linkedin, Mail, ExternalLink } from "lucide-react"
 
 export default function ContactPage() {
   const [formState, setFormState] = useState({
@@ -51,11 +52,11 @@ export default function ContactPage() {
   }
 
   return (
-    <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "40px 20px" }}>
-      <div style={{ maxWidth: "900px", margin: "0 auto" }}>
+    <div style={{ maxWidth: "1400px", margin: "0 auto", padding: "40px 30px" }}>
+      <div style={{ maxWidth: "100%", margin: "0 auto" }}>
         <div
           style={{
-            marginBottom: "40px",
+            marginBottom: "50px",
           }}
         >
           <h1 style={{ fontSize: "32px", fontWeight: "bold", marginBottom: "16px" }}>Contact</h1>
@@ -65,119 +66,139 @@ export default function ContactPage() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
-            gap: "40px",
+            gridTemplateColumns: isMobile ? "1fr" : "1fr 1.5fr",
+            gap: "60px",
           }}
         >
           <div>
             <div style={{ marginBottom: "30px" }}>
               <div style={{ display: "flex", gap: "16px", marginBottom: "24px" }}>
                 <div>
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    style={{ color: "#999" }}
-                  >
-                    <path
-                      d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <polyline
-                      points="22,6 12,13 2,6"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+                  <Mail size={24} color="#555" />
                 </div>
                 <div>
                   <h3 style={{ fontWeight: "500", marginBottom: "4px" }}>メール</h3>
-                  <p style={{ color: "#666" }}>contact@ai-engineer.example.com</p>
-                </div>
-              </div>
-
-              <div style={{ display: "flex", gap: "16px", marginBottom: "24px" }}>
-                <div>
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    style={{ color: "#999" }}
-                  >
-                    <path
-                      d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <h3 style={{ fontWeight: "500", marginBottom: "4px" }}>電話</h3>
-                  <p style={{ color: "#666" }}>03-1234-5678</p>
-                </div>
-              </div>
-
-              <div style={{ display: "flex", gap: "16px" }}>
-                <div>
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    style={{ color: "#999" }}
-                  >
-                    <path
-                      d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <circle
-                      cx="12"
-                      cy="10"
-                      r="3"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <h3 style={{ fontWeight: "500", marginBottom: "4px" }}>所在地</h3>
-                  <p style={{ color: "#666" }}>
-                    〒100-0001
-                    <br />
-                    東京都千代田区千代田1-1
-                    <br />
-                    AIビル 5階
-                  </p>
+                  <p style={{ color: "#666" }}>tomsophus@gmail.com</p>
                 </div>
               </div>
             </div>
 
-            <div>
+            <div style={{ marginBottom: "40px" }}>
               <h3 style={{ fontSize: "18px", fontWeight: "500", marginBottom: "16px" }}>お問い合わせ内容</h3>
               <ul style={{ paddingLeft: "20px", color: "#666" }}>
                 <li style={{ marginBottom: "8px" }}>AIプロジェクトの相談・見積もり</li>
                 <li style={{ marginBottom: "8px" }}>技術顧問・コンサルティング</li>
                 <li style={{ marginBottom: "8px" }}>講演・セミナーのご依頼</li>
-                <li style={{ marginBottom: "8px" }}>採用・キャリアに関するお問い合わせ</li>
                 <li>その他のご質問・ご相談</li>
               </ul>
+            </div>
+
+            {/* SNSリン   セクション - 横並びに変更 */}
+            <div style={{ marginBottom: "30px" }}>
+              <h3 style={{ fontSize: "18px", fontWeight: "500", marginBottom: "20px" }}>SNSでつながる</h3>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+                  gap: "16px",
+                }}
+              >
+                <a
+                  href="https://github.com/tomsophus"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    padding: "12px 16px",
+                    borderRadius: "8px",
+                    background: "linear-gradient(135deg, rgba(220, 220, 220, 0.3) 0%, rgba(220, 220, 220, 0.2) 100%)",
+                    textDecoration: "none",
+                    color: "#333",
+                    transition: "all 0.3s ease",
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.transform = "translateY(-2px)"
+                    e.currentTarget.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)"
+                    e.currentTarget.style.background =
+                      "linear-gradient(135deg, rgba(220, 220, 220, 0.4) 0%, rgba(220, 220, 220, 0.3) 100%)"
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.transform = "translateY(0)"
+                    e.currentTarget.style.boxShadow = "none"
+                    e.currentTarget.style.background =
+                      "linear-gradient(135deg, rgba(220, 220, 220, 0.3) 0%, rgba(220, 220, 220, 0.2) 100%)"
+                  }}
+                >
+                  <Github size={20} style={{ marginRight: "12px" }} />
+                  <span style={{ fontWeight: "500" }}>GitHub</span>
+                  <ExternalLink size={16} style={{ marginLeft: "auto" }} />
+                </a>
+
+                <a
+                  href="https://www.linkedin.com/in/tom-sophus-5b0a9835a/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    padding: "12px 16px",
+                    borderRadius: "8px",
+                    background: "linear-gradient(135deg, rgba(220, 220, 220, 0.3) 0%, rgba(220, 220, 220, 0.2) 100%)",
+                    textDecoration: "none",
+                    color: "#333",
+                    transition: "all 0.3s ease",
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.transform = "translateY(-2px)"
+                    e.currentTarget.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)"
+                    e.currentTarget.style.background =
+                      "linear-gradient(135deg, rgba(220, 220, 220, 0.4) 0%, rgba(220, 220, 220, 0.3) 100%)"
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.transform = "translateY(0)"
+                    e.currentTarget.style.boxShadow = "none"
+                    e.currentTarget.style.background =
+                      "linear-gradient(135deg, rgba(220, 220, 220, 0.3) 0%, rgba(220, 220, 220, 0.2) 100%)"
+                  }}
+                >
+                  <Linkedin size={20} style={{ marginRight: "12px" }} />
+                  <span style={{ fontWeight: "500" }}>LinkedIn</span>
+                  <ExternalLink size={16} style={{ marginLeft: "auto" }} />
+                </a>
+
+                <a
+                  href="https://twitter.com/tomsophus"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    padding: "12px 16px",
+                    borderRadius: "8px",
+                    background: "linear-gradient(135deg, rgba(220, 220, 220, 0.3) 0%, rgba(220, 220, 220, 0.2) 100%)",
+                    textDecoration: "none",
+                    color: "#333",
+                    transition: "all 0.3s ease",
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.transform = "translateY(-2px)"
+                    e.currentTarget.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)"
+                    e.currentTarget.style.background =
+                      "linear-gradient(135deg, rgba(220, 220, 220, 0.4) 0%, rgba(220, 220, 220, 0.3) 100%)"
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.transform = "translateY(0)"
+                    e.currentTarget.style.boxShadow = "none"
+                    e.currentTarget.style.background =
+                      "linear-gradient(135deg, rgba(220, 220, 220, 0.3) 0%, rgba(220, 220, 220, 0.2) 100%)"
+                  }}
+                >
+                  <Twitter size={20} style={{ marginRight: "12px" }} />
+                  <span style={{ fontWeight: "500" }}>Twitter</span>
+                  <ExternalLink size={16} style={{ marginLeft: "auto" }} />
+                </a>
+              </div>
             </div>
           </div>
 
@@ -185,7 +206,7 @@ export default function ContactPage() {
             style={{
               border: "1px solid rgba(0, 0, 0, 0.1)",
               borderRadius: "12px",
-              padding: "30px",
+              padding: "40px",
               boxShadow: "0 4px 20px rgba(0, 0, 0, 0.05)",
             }}
           >
@@ -254,50 +275,54 @@ export default function ContactPage() {
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-                <div>
-                  <label
-                    htmlFor="name"
-                    style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: "500" }}
-                  >
-                    お名前 <span style={{ color: "#e53e3e" }}>*</span>
-                  </label>
-                  <input
-                    id="name"
-                    name="name"
-                    value={formState.name}
-                    onChange={handleChange}
-                    required
-                    style={{
-                      width: "100%",
-                      padding: "10px",
-                      border: "1px solid rgba(0, 0, 0, 0.1)",
-                      borderRadius: "5px",
-                    }}
-                  />
-                </div>
+              <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+                <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: "24px" }}>
+                  <div>
+                    <label
+                      htmlFor="name"
+                      style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: "500" }}
+                    >
+                      お名前 <span style={{ color: "#e53e3e" }}>*</span>
+                    </label>
+                    <input
+                      id="name"
+                      name="name"
+                      value={formState.name}
+                      onChange={handleChange}
+                      required
+                      style={{
+                        width: "100%",
+                        padding: "12px",
+                        border: "1px solid rgba(0, 0, 0, 0.1)",
+                        borderRadius: "5px",
+                        fontSize: "16px",
+                      }}
+                    />
+                  </div>
 
-                <div>
-                  <label
-                    htmlFor="email"
-                    style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: "500" }}
-                  >
-                    メールアドレス <span style={{ color: "#e53e3e" }}>*</span>
-                  </label>
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={formState.email}
-                    onChange={handleChange}
-                    required
-                    style={{
-                      width: "100%",
-                      padding: "10px",
-                      border: "1px solid rgba(0, 0, 0, 0.1)",
-                      borderRadius: "5px",
-                    }}
-                  />
+                  <div>
+                    <label
+                      htmlFor="email"
+                      style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: "500" }}
+                    >
+                      メールアドレス <span style={{ color: "#e53e3e" }}>*</span>
+                    </label>
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      value={formState.email}
+                      onChange={handleChange}
+                      required
+                      style={{
+                        width: "100%",
+                        padding: "12px",
+                        border: "1px solid rgba(0, 0, 0, 0.1)",
+                        borderRadius: "5px",
+                        fontSize: "16px",
+                      }}
+                    />
+                  </div>
                 </div>
 
                 <div>
@@ -315,9 +340,10 @@ export default function ContactPage() {
                     required
                     style={{
                       width: "100%",
-                      padding: "10px",
+                      padding: "12px",
                       border: "1px solid rgba(0, 0, 0, 0.1)",
                       borderRadius: "5px",
+                      fontSize: "16px",
                     }}
                   />
                 </div>
@@ -332,15 +358,17 @@ export default function ContactPage() {
                   <textarea
                     id="message"
                     name="message"
-                    rows={5}
+                    rows={6}
                     value={formState.message}
                     onChange={handleChange}
                     required
                     style={{
                       width: "100%",
-                      padding: "10px",
+                      padding: "12px",
                       border: "1px solid rgba(0, 0, 0, 0.1)",
                       borderRadius: "5px",
+                      fontSize: "16px",
+                      resize: "vertical",
                     }}
                   />
                 </div>
@@ -352,11 +380,13 @@ export default function ContactPage() {
                     backgroundColor: "#000",
                     color: "#fff",
                     border: "none",
-                    padding: "12px",
+                    padding: "14px",
                     borderRadius: "5px",
                     cursor: "pointer",
                     fontWeight: "500",
+                    fontSize: "16px",
                     opacity: isSubmitting ? 0.7 : 1,
+                    marginTop: "10px",
                   }}
                 >
                   {isSubmitting ? "送信中..." : "送信する"}

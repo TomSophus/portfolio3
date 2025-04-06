@@ -4,6 +4,10 @@ import { Shippori_Mincho } from "next/font/google"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import NeuralNetworkAnimation from "@/components/neural-network-animation"
+import CustomCursor from "@/components/custom-cursor"
+import CursorEffectsProvider from "@/components/cursor-effects-provider"
+import AudioPlayer from "@/components/audio-player"
+import { AudioProvider } from "@/contexts/audio-context"
 
 // minchoを使用するように修正
 const mincho = Shippori_Mincho({
@@ -37,19 +41,24 @@ export default function RootLayout({
           position: "relative",
         }}
       >
-        <NeuralNetworkAnimation />
-        <Header />
-        <main
-          style={{
-            flex: "1 0 auto",
-            paddingBottom: "60px",
-            position: "relative",
-            zIndex: 1,
-          }}
-        >
-          {children}
-        </main>
-        <Footer />
+        <AudioProvider>
+          <CustomCursor />
+          <CursorEffectsProvider />
+          <NeuralNetworkAnimation />
+          <Header />
+          <main
+            style={{
+              flex: "1 0 auto",
+              paddingBottom: "60px",
+              position: "relative",
+              zIndex: 1,
+            }}
+          >
+            {children}
+          </main>
+          <Footer />
+          <AudioPlayer />
+        </AudioProvider>
       </body>
     </html>
   )

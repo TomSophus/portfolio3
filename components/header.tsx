@@ -26,9 +26,9 @@ export default function Header() {
     >
       <div
         style={{
-          maxWidth: "1200px",
+          maxWidth: "1400px",
           margin: "0 auto",
-          padding: "0 20px",
+          padding: "0 30px",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
@@ -50,7 +50,7 @@ export default function Header() {
           <ul
             style={{
               display: "flex",
-              gap: "30px",
+              gap: "35px", // 間隔を広げる
               listStyle: "none",
               margin: 0,
               padding: 0,
@@ -63,8 +63,10 @@ export default function Header() {
                   style={{
                     textDecoration: "none",
                     color: "black",
-                    fontSize: "14px",
+                    fontSize: "16px", // フォントサイズを大きく
                     fontWeight: "500",
+                    padding: "8px 0", // パディングを追加してクリック領域を広げる
+                    transition: "all 0.3s ease",
                   }}
                 >
                   {item.name}

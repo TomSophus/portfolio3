@@ -70,3 +70,36 @@ a {
   }
 }
 
+/* カスタムカーソルのスタイル */
+.custom-cursor-dot {
+  mix-blend-mode: difference;
+}
+
+.custom-cursor-ring {
+  mix-blend-mode: normal;
+}
+
+/* タッチデバイス向けのメディアクエリを削除 */
+
+/* カーソルエフェクトのアニメーション */
+@keyframes cursorPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ホバー時のトランジション効果 */
+a,
+button,
+[role="button"],
+.card,
+.feature-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+

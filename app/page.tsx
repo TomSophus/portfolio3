@@ -4,54 +4,146 @@ import Link from "next/link"
 import { useEffect, useState } from "react"
 
 export default function Home() {
-  // mountedを使用するように修正
   const [mounted, setMounted] = useState(false)
+  const [titleVisible, setTitleVisible] = useState(false)
+  const [titleLetters, setTitleLetters] = useState<{ char: string; visible: boolean; opacity: number }[]>([])
+  const titleText = "Welocome to TomSophus's Portfolio"
 
   useEffect(() => {
     setMounted(true)
-    // mountedを使用する例（条件付きレンダリングなど）
-    if (mounted) {
-      // コンソールログを追加して変数を使用
-      console.log("Component is mounted")
+
+    // タイトルアニメーションの準備
+    const letters = titleText.split("").map((char) => ({
+      char,
+      visible: false,
+      opacity: 0,
+    }))
+    setTitleLetters(letters)
+
+    // アニメーション開始のタイミングを少し遅らせる
+    setTimeout(() => {
+      setTitleVisible(true)
+
+      // ランダムな順序で文字を表示する
+      const indices = Array.from({ length: titleText.length }, (_, i) => i)
+      shuffleArray(indices)
+
+      // 文字をランダムな順序で表示
+      indices.forEach((index, i) => {
+        setTimeout(
+          () => {
+            setTitleLetters((prev) => {
+              const newLetters = [...prev]
+              newLetters[index] = {
+                ...newLetters[index],
+                visible: true,
+                opacity: 0.4 + Math.random() * 0.6, // ランダムな透明度で表示
+              }
+              return newLetters
+            })
+
+            // 少し遅れて完全に表示
+            setTimeout(
+              () => {
+                setTitleLetters((prev) => {
+                  const newLetters = [...prev]
+                  newLetters[index] = {
+                    ...newLetters[index],
+                    opacity: 1,
+                  }
+                  return newLetters
+                })
+              },
+              300 + Math.random() * 200,
+            )
+          },
+          i * (1500 / titleText.length),
+        ) // 文字数に応じて表示間隔を調整
+      })
+
+      // 最後に全ての文字を完全に表示
+      setTimeout(() => {
+        setTitleLetters((prev) =>
+          prev.map((letter) => ({
+            ...letter,
+            visible: true,
+            opacity: 1,
+          })),
+        )
+      }, 2000)
+    }, 300)
+  }, [titleText])
+
+  // 配列をシャッフルする関数
+  const shuffleArray = (array: number[]) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1))
+      ;[array[i], array[j]] = [array[j], array[i]]
     }
-  }, [mounted]) // mountedを依存配列に追加
+    return array
+  }
 
   return (
     <div
       style={{
-        maxWidth: "900px",
+        maxWidth: "1400px",
         margin: "0 auto",
-        padding: "0 20px",
-        marginTop: "80px", // 上部の余白をさらに増やす
+        padding: "0 30px",
+        marginTop: "80px",
       }}
     >
       <div
         style={{
-          marginBottom: "150px", // セクション間の余白をさらに増やす
+          marginBottom: "150px",
           textAlign: "center",
         }}
       >
         <h1
           style={{
-            fontSize: "40px", // フォントサイズをさらに大きく
-            marginBottom: "80px", // 見出しと段落の間の余白を大幅に増やす
+            fontSize: "40px",
+            marginBottom: "80px",
             fontWeight: "700",
             letterSpacing: "0.05em",
             textShadow: "0 1px 2px rgba(0, 0, 0, 0.1)",
             lineHeight: "1.4",
+            position: "relative",
+            display: "inline-block",
+            minHeight: "60px", // タイトルの高さを確保
           }}
         >
-          Welocome to TomSophus&apos;s Portfolio
+          <span style={{ position: "relative", display: "inline-block" }}>
+            {titleLetters.map((letter, index) => (
+              <span
+                key={index}
+                style={{
+                  display: "inline-block",
+                  opacity: letter.visible ? letter.opacity : 0,
+                  transform: letter.visible
+                    ? `translateY(0) scale(1)`
+                    : `translateY(${Math.random() * 20 - 10}px) scale(0.8)`,
+                  transition: `opacity 0.5s ease, transform 0.5s ease`,
+                  color: letter.visible ? "#000" : "#999",
+                  textShadow: letter.visible ? "0 1px 2px rgba(0, 0, 0, 0.1)" : "none",
+                  filter: letter.visible ? "blur(0px)" : "blur(2px)",
+                }}
+              >
+                {letter.char === " " ? "\u00A0" : letter.char}
+              </span>
+            ))}
+          </span>
         </h1>
 
         <p
           style={{
             fontSize: "20px",
-            marginBottom: "100px", // 段落とボタンの間の余白を大幅に増やす
-            maxWidth: "650px",
-            margin: "0 auto 100px", // 下部マージンを大幅に増やす
+            marginBottom: "100px",
+            maxWidth: "800px", // 幅を広げる
+            margin: "0 auto 100px",
             lineHeight: "2.0",
-            color: "#333",
+            color: "#222", // 文字色を濃くする
+            opacity: titleVisible ? 1 : 0,
+            transform: titleVisible ? "translateY(0)" : "translateY(20px)",
+            transition: "opacity 1s ease 1.5s, transform 1s ease 1.5s",
           }}
         >
           アカデミアとビジネスの狭間で。
@@ -62,22 +154,25 @@ export default function Home() {
         <div
           style={{
             display: "flex",
-            gap: "30px", // ボタン間の余白をさらに増やす
+            gap: "30px",
             justifyContent: "center",
-            marginBottom: "60px", // ボタン下の余白を大幅に増やす
+            marginBottom: "60px",
             flexWrap: "wrap",
+            opacity: titleVisible ? 1 : 0,
+            transform: titleVisible ? "translateY(0)" : "translateY(20px)",
+            transition: "opacity 1s ease 1.8s, transform 1s ease 1.8s",
           }}
         >
           <Link
             href="/works"
             style={{
               display: "inline-block",
-              padding: "16px 36px", // ボタンの内部余白をさらに増やす
+              padding: "16px 36px",
               background: "linear-gradient(135deg, #000 0%, #333 100%)",
               color: "white",
               textDecoration: "none",
               borderRadius: "6px",
-              fontSize: "16px", // フォントサイズをさらに大きく
+              fontSize: "16px",
               fontWeight: "500",
               boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
               transition: "all 0.3s ease",
@@ -98,12 +193,12 @@ export default function Home() {
             href="/contact"
             style={{
               display: "inline-block",
-              padding: "16px 36px", // ボタンの内部余白をさらに増やす
+              padding: "16px 36px",
               background: "transparent",
               color: "black",
               textDecoration: "none",
               borderRadius: "6px",
-              fontSize: "16px", // フォントサイズをさらに大きく
+              fontSize: "16px",
               fontWeight: "500",
               boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
               transition: "all 0.3s ease",
@@ -129,9 +224,12 @@ export default function Home() {
         style={{
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
-          gap: "40px", // カード間の余白
-          maxWidth: "800px",
-          margin: "0 auto 80px", // 下部マージンをさらに増やす
+          gap: "40px",
+          maxWidth: "1200px", // 幅を広げる
+          margin: "0 auto 80px",
+          opacity: titleVisible ? 1 : 0,
+          transform: titleVisible ? "translateY(0)" : "translateY(20px)",
+          transition: "opacity 1s ease 2.1s, transform 1s ease 2.1s",
         }}
       >
         <div
@@ -171,7 +269,7 @@ export default function Home() {
               marginBottom: "20px",
               fontSize: "15px",
               lineHeight: "1.8",
-              color: "#444",
+              color: "#333",
             }}
           >
             自然言語処理を活用した感情分析システム
@@ -227,7 +325,7 @@ export default function Home() {
               fontSize: "20px",
               marginBottom: "16px",
               fontWeight: "600",
-              color: "#111",
+              color: "#111", // 文字色を濃くする
             }}
           >
             最新論文
@@ -237,10 +335,11 @@ export default function Home() {
               marginBottom: "20px",
               fontSize: "15px",
               lineHeight: "1.8",
-              color: "#444",
+              color: "#333", // 文字色を濃くする
             }}
           >
-            &ldquo;深層学習を用いた画像認識の新手法&rdquo;
+            &ldquo;Sub-terahertz photoacoustic effect enabling broadband ultrasound generation for underwater
+            communication&rdquo;
           </p>
           <Link
             href="/publication"

@@ -24,8 +24,8 @@ export default function WorksPage() {
   }, [])
 
   return (
-    <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "40px 20px" }}>
-      <div style={{ maxWidth: "900px", margin: "0 auto" }}>
+    <div style={{ maxWidth: "1400px", margin: "0 auto", padding: "40px 30px" }}>
+      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
         <div
           style={{
             marginBottom: "40px",
