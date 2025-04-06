@@ -32,7 +32,7 @@ export default function WorksPage() {
           }}
         >
           <h1 style={{ fontSize: "32px", fontWeight: "bold", marginBottom: "16px" }}>Works</h1>
-          <p style={{ fontSize: "18px", color: "#666" }}>これまでに手がけたプロジェクトとポートフォリオ</p>
+          <p style={{ fontSize: "18px", color: "#666" }}>これまでに手がけたプロジェクトとポ   トフォリオ</p>
         </div>
 
         <div

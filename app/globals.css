@@ -88,6 +88,13 @@ a {
     touch-action: manipulation !important;
     -webkit-tap-highlight-color: transparent !important;
   }
+
+  /* タイトル表示の改善 */
+  h1 span {
+    display: inline-block;
+    word-break: keep-all;
+    white-space: normal;
+  }
 }
 
 /* カスタムカーソルのスタイル */
@@ -191,11 +198,26 @@ button,
 @media (hover: none) and (pointer: coarse) {
   .audio-player {
     transform: scale(1.2);
+    opacity: 0.7;
+  }
+
+  .audio-player.active {
+    opacity: 1;
+    transform: scale(1.2);
   }
 
   .audio-player button {
     min-width: 48px !important;
     min-height: 48px !important;
   }
+}
+
+.audio-player {
+  transition: opacity 0.5s ease, transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.audio-player:hover {
+  opacity: 1 !important;
+  transform: scale(1) !important;
 }
 

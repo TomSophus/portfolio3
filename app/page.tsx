@@ -7,7 +7,23 @@ export default function Home() {
   const [mounted, setMounted] = useState(false)
   const [titleVisible, setTitleVisible] = useState(false)
   const [titleLetters, setTitleLetters] = useState<{ char: string; visible: boolean; opacity: number }[]>([])
-  const titleText = "Welocome to TomSophus's Portfolio"
+  const titleText = "Welcome to TomSophus's Portfolio"
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth <= 768)
+    }
+
+    // 初期チェック
+    checkIfMobile()
+
+    // リサイズイベントのリスナーを追加
+    window.addEventListener("resize", checkIfMobile)
+
+    // クリーンアップ
+    return () => window.removeEventListener("resize", checkIfMobile)
+  }, [])
 
   useEffect(() => {
     setMounted(true)
@@ -83,6 +99,67 @@ export default function Home() {
     return array
   }
 
+  // タイトルを単語ごとに分割して表示する関数
+  const renderTitle = () => {
+    // タイトルを単語ごとに分割
+    const words = titleText.split(" ")
+
+    // 単語ごとにスパンで囲む
+    return (
+      <h1
+        style={{
+          fontSize: isMobile ? "32px" : "40px",
+          marginBottom: "80px",
+          fontWeight: "700",
+          letterSpacing: "0.05em",
+          textShadow: "0 1px 2px rgba(0, 0, 0, 0.1)",
+          lineHeight: "1.4",
+          position: "relative",
+          display: "inline-block",
+          minHeight: "60px", // タイトルの高さを確保
+          maxWidth: "100%", // 最大幅を設定
+          wordBreak: "keep-all", // 単語の途中での改行を防止
+          overflowWrap: "break-word", // 長い単語は必要に応じて折り返す
+        }}
+      >
+        {words.map((word, wordIndex) => (
+          <span
+            key={wordIndex}
+            style={{
+              display: "inline-block",
+              marginRight: "0.2em", // 単語間のスペース
+              marginBottom: "0.1em", // 行間の調整
+            }}
+          >
+            {word.split("").map((char, charIndex) => {
+              const index = titleText.indexOf(word) + charIndex
+              const letter = titleLetters[index] || { visible: false, opacity: 0 }
+
+              return (
+                <span
+                  key={charIndex}
+                  style={{
+                    display: "inline-block",
+                    opacity: letter.visible ? letter.opacity : 0,
+                    transform: letter.visible
+                      ? `translateY(0) scale(1)`
+                      : `translateY(${Math.random() * 20 - 10}px) scale(0.8)`,
+                    transition: `opacity 0.5s ease, transform 0.5s ease`,
+                    color: letter.visible ? "#000" : "#999",
+                    textShadow: letter.visible ? "0 1px 2px rgba(0, 0, 0, 0.1)" : "none",
+                    filter: letter.visible ? "blur(0px)" : "blur(2px)",
+                  }}
+                >
+                  {char}
+                </span>
+              )
+            })}
+          </span>
+        ))}
+      </h1>
+    )
+  }
+
   return (
     <div
       style={{
@@ -98,44 +175,12 @@ export default function Home() {
           textAlign: "center",
         }}
       >
-        <h1
-          style={{
-            fontSize: "40px",
-            marginBottom: "80px",
-            fontWeight: "700",
-            letterSpacing: "0.05em",
-            textShadow: "0 1px 2px rgba(0, 0, 0, 0.1)",
-            lineHeight: "1.4",
-            position: "relative",
-            display: "inline-block",
-            minHeight: "60px", // タイトルの高さを確保
-          }}
-        >
-          <span style={{ position: "relative", display: "inline-block" }}>
-            {titleLetters.map((letter, index) => (
-              <span
-                key={index}
-                style={{
-                  display: "inline-block",
-                  opacity: letter.visible ? letter.opacity : 0,
-                  transform: letter.visible
-                    ? `translateY(0) scale(1)`
-                    : `translateY(${Math.random() * 20 - 10}px) scale(0.8)`,
-                  transition: `opacity 0.5s ease, transform 0.5s ease`,
-                  color: letter.visible ? "#000" : "#999",
-                  textShadow: letter.visible ? "0 1px 2px rgba(0, 0, 0, 0.1)" : "none",
-                  filter: letter.visible ? "blur(0px)" : "blur(2px)",
-                }}
-              >
-                {letter.char === " " ? "\u00A0" : letter.char}
-              </span>
-            ))}
-          </span>
-        </h1>
+        {/* 単語ごとに分割して表示するタイトル */}
+        {renderTitle()}
 
         <p
           style={{
-            fontSize: "20px",
+            fontSize: isMobile ? "18px" : "20px",
             marginBottom: "100px",
             maxWidth: "800px", // 幅を広げる
             margin: "0 auto 100px",
@@ -144,6 +189,7 @@ export default function Home() {
             opacity: titleVisible ? 1 : 0,
             transform: titleVisible ? "translateY(0)" : "translateY(20px)",
             transition: "opacity 1s ease 1.5s, transform 1s ease 1.5s",
+            padding: "0 10px", // モバイル表示時の余白を追加
           }}
         >
           アカデミアとビジネスの狭間で。
@@ -223,7 +269,7 @@ export default function Home() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "1fr 1fr",
+          gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
           gap: "40px",
           maxWidth: "1200px", // 幅を広げる
           margin: "0 auto 80px",
