@@ -29,10 +29,6 @@ export default function CustomCursor() {
     const handleMouseDown = () => setClicked(true)
     const handleMouseUp = () => setClicked(false)
 
-    // リンクやボタンにホバーした時の状態を追跡
-    const handleLinkHoverStart = () => setLinkHovered(true)
-    const handleLinkHoverEnd = () => setLinkHovered(false)
-
     // マウスが画面外に出た時の処理
     const handleMouseLeave = () => setHidden(true)
     const handleMouseEnter = () => setHidden(false)
@@ -46,11 +42,27 @@ export default function CustomCursor() {
       window.addEventListener("mouseenter", handleMouseEnter)
 
       // リンクとボタンにイベントリスナーを追加
-      const links = document.querySelectorAll("a, button, [role=button]")
-      links.forEach((link) => {
-        link.addEventListener("mouseenter", handleLinkHoverStart)
-        link.addEventListener("mouseleave", handleLinkHoverEnd)
+      const addLinkListeners = () => {
+        const links = document.querySelectorAll("a, button, [role=button]")
+        links.forEach((link) => {
+          link.addEventListener("mouseenter", () => setLinkHovered(true))
+          link.addEventListener("mouseleave", () => setLinkHovered(false))
+        })
+      }
+
+      // 初期リスナー追加
+      addLinkListeners()
+
+      // DOMの変更を監視して新しい要素にもリスナーを追加
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.type === "childList" && mutation.addedNodes.length > 0) {
+            addLinkListeners()
+          }
+        })
       })
+
+      observer.observe(document.body, { childList: true, subtree: true })
     }
 
     // クリーンアップ
@@ -61,12 +73,6 @@ export default function CustomCursor() {
         window.removeEventListener("mouseup", handleMouseUp)
         window.removeEventListener("mouseleave", handleMouseLeave)
         window.removeEventListener("mouseenter", handleMouseEnter)
-
-        const links = document.querySelectorAll("a, button, [role=button]")
-        links.forEach((link) => {
-          link.removeEventListener("mouseenter", handleLinkHoverStart)
-          link.removeEventListener("mouseleave", handleLinkHoverEnd)
-        })
       }
     }
   }, [isTouchDevice])

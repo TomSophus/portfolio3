@@ -77,14 +77,18 @@ export default function AudioPlayer() {
     audioRef.current.volume = isMuted ? 0 : volume
   }, [volume, isMuted])
 
-  // 再生/一時停止の切り替え - onClickのみを使用
-  const togglePlay = () => {
-    setIsPlaying((prev) => !prev)
+  // 再生/一時停止の切り替え - タッチイベントとクリックイベントの両方を処理
+  const togglePlay = (e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault() // デフォルトの動作を防止
+    e.stopPropagation() // イベントの伝播を停止
+    setIsPlaying(!isPlaying)
   }
 
-  // ミュート切り替え - onClickのみを使用
-  const toggleMute = () => {
-    setIsMuted((prev) => !prev)
+  // ミュート切り替え - タッチイベントとクリックイベントの両方を処理
+  const toggleMute = (e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault() // デフォルトの動作を防止
+    e.stopPropagation() // イベントの伝播を停止
+    setIsMuted(!isMuted)
   }
 
   // 音量変更
@@ -127,6 +131,7 @@ export default function AudioPlayer() {
         borderRadius: "30px",
         boxShadow: "0 4px 15px rgba(0, 0, 0, 0.2)",
         transition: "all 0.3s ease",
+        pointerEvents: "auto", // 明示的にポインターイベントを有効化
       }}
       onMouseEnter={() => !isVolumeChanging && setShowVolumeControl(true)}
       onMouseLeave={() => !isVolumeChanging && setShowVolumeControl(false)}
@@ -134,6 +139,7 @@ export default function AudioPlayer() {
       {/* 再生/一時停止ボタン */}
       <button
         onClick={togglePlay}
+        onTouchEnd={togglePlay} // タッチイベントを明示的に処理
         disabled={!isLoaded}
         style={{
           background: "none",
@@ -148,6 +154,10 @@ export default function AudioPlayer() {
           backgroundColor: isPlaying ? "rgba(0, 0, 0, 0.1)" : "rgba(0, 0, 0, 0.15)",
           transition: "all 0.2s ease",
           WebkitTapHighlightColor: "transparent",
+          pointerEvents: "auto", // 明示的にポインターイベントを有効化
+          touchAction: "manipulation", // タッチアクションを最適化
+          position: "relative", // z-indexを有効にするために必要
+          zIndex: 100000, // 最前面に表示
         }}
         aria-label={isPlaying ? "音楽を一時停止" : "音楽を再生"}
       >
@@ -167,6 +177,7 @@ export default function AudioPlayer() {
       >
         <button
           onClick={toggleMute}
+          onTouchEnd={toggleMute} // タッチイベントを明示的に処理
           style={{
             background: "none",
             border: "none",
@@ -181,6 +192,10 @@ export default function AudioPlayer() {
             flexShrink: 0,
             transition: "all 0.2s ease",
             WebkitTapHighlightColor: "transparent",
+            pointerEvents: "auto", // 明示的にポインターイベントを有効化
+            touchAction: "manipulation", // タッチアクションを最適化
+            position: "relative", // z-indexを有効にするために必要
+            zIndex: 100000, // 最前面に表示
           }}
           aria-label={isMuted ? "ミュート解除" : "ミュート"}
         >
@@ -208,6 +223,10 @@ export default function AudioPlayer() {
             opacity: 1, // 常に表示
             accentColor: "#333",
             height: isMobile ? "36px" : "auto",
+            pointerEvents: "auto", // 明示的にポインターイベントを有効化
+            touchAction: "manipulation", // タッチアクションを最適化
+            position: "relative", // z-indexを有効にするために必要
+            zIndex: 100000, // 最前面に表示
           }}
           aria-label="音量"
         />

@@ -68,6 +68,26 @@ a {
   .grid-cols-2 {
     grid-template-columns: 1fr !important;
   }
+
+  .audio-player {
+    transform: scale(1.1);
+  }
+
+  .audio-player button {
+    min-width: 48px !important;
+    min-height: 48px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* タッチターゲットサイズの最適化 */
+  button,
+  a,
+  [role="button"],
+  input[type="range"] {
+    touch-action: manipulation !important;
+    -webkit-tap-highlight-color: transparent !important;
+  }
 }
 
 /* カスタムカーソルのスタイル */
@@ -170,7 +190,12 @@ button,
 /* タッチデバイス向けの最適化 */
 @media (hover: none) and (pointer: coarse) {
   .audio-player {
-    transform: scale(1.1);
+    transform: scale(1.2);
+  }
+
+  .audio-player button {
+    min-width: 48px !important;
+    min-height: 48px !important;
   }
 }
 
