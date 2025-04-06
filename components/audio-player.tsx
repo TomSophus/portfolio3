@@ -11,6 +11,22 @@ export default function AudioPlayer() {
   const [showVolumeControl, setShowVolumeControl] = useState(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const [isLoaded, setIsLoaded] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth <= 768)
+    }
+
+    // 初期チェック
+    checkIfMobile()
+
+    // リサイズイベントのリスナーを追加
+    window.addEventListener("resize", checkIfMobile)
+
+    // クリーンアップ
+    return () => window.removeEventListener("resize", checkIfMobile)
+  }, [])
 
   useEffect(() => {
     // オーディオ要素の作成
@@ -83,21 +99,22 @@ export default function AudioPlayer() {
       className="audio-player"
       style={{
         position: "fixed",
-        bottom: "20px",
-        right: "20px",
+        bottom: isMobile ? "15px" : "20px",
+        left: isMobile ? "15px" : "20px",
         zIndex: 1000,
         display: "flex",
         alignItems: "center",
         gap: "10px",
         background: "rgba(255, 255, 255, 0.8)",
         backdropFilter: "blur(10px)",
-        padding: "8px 12px",
+        padding: isMobile ? "6px 10px" : "8px 12px",
         borderRadius: "30px",
         boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
         transition: "all 0.3s ease",
       }}
       onMouseEnter={() => setShowVolumeControl(true)}
       onMouseLeave={() => setShowVolumeControl(false)}
+      onTouchStart={() => setShowVolumeControl(true)}
     >
       {/* 再生/一時停止ボタン */}
       <button
@@ -110,15 +127,15 @@ export default function AudioPlayer() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          width: "36px",
-          height: "36px",
+          width: isMobile ? "40px" : "36px",
+          height: isMobile ? "40px" : "36px",
           borderRadius: "50%",
           backgroundColor: isPlaying ? "rgba(0, 0, 0, 0.05)" : "rgba(0, 0, 0, 0.1)",
           transition: "all 0.2s ease",
         }}
         aria-label={isPlaying ? "音楽を一時停止" : "音楽を再生"}
       >
-        {isPlaying ? <Pause size={18} color="#333" /> : <Play size={18} color="#333" />}
+        {isPlaying ? <Pause size={isMobile ? 20 : 18} color="#333" /> : <Play size={isMobile ? 20 : 18} color="#333" />}
       </button>
 
       {/* 音量コントロール */}
@@ -128,7 +145,7 @@ export default function AudioPlayer() {
           alignItems: "center",
           gap: "8px",
           overflow: "hidden",
-          width: showVolumeControl ? "120px" : "36px",
+          width: showVolumeControl ? (isMobile ? "100px" : "120px") : isMobile ? "40px" : "36px",
           transition: "width 0.3s ease",
         }}
       >
@@ -141,8 +158,8 @@ export default function AudioPlayer() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            width: "36px",
-            height: "36px",
+            width: isMobile ? "40px" : "36px",
+            height: isMobile ? "40px" : "36px",
             borderRadius: "50%",
             backgroundColor: "rgba(0, 0, 0, 0.05)",
             flexShrink: 0,
@@ -150,7 +167,11 @@ export default function AudioPlayer() {
           }}
           aria-label={isMuted ? "ミュート解除" : "ミュート"}
         >
-          {isMuted || volume === 0 ? <VolumeX size={18} color="#333" /> : <Volume2 size={18} color="#333" />}
+          {isMuted || volume === 0 ? (
+            <VolumeX size={isMobile ? 20 : 18} color="#333" />
+          ) : (
+            <Volume2 size={isMobile ? 20 : 18} color="#333" />
+          )}
         </button>
 
         {/* 音量スライダー */}
@@ -166,6 +187,7 @@ export default function AudioPlayer() {
             opacity: showVolumeControl ? 1 : 0,
             transition: "opacity 0.3s ease",
             accentColor: "#333",
+            height: isMobile ? "30px" : "auto", // モバイルでタッチしやすく
           }}
           aria-label="音量"
         />

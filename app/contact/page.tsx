@@ -93,7 +93,7 @@ export default function ContactPage() {
               </ul>
             </div>
 
-            {/* SNSリン   セクション - 横並びに変更 */}
+            {/* SNSリンクセクション - 横並びに変更 */}
             <div style={{ marginBottom: "30px" }}>
               <h3 style={{ fontSize: "18px", fontWeight: "500", marginBottom: "20px" }}>SNSでつながる</h3>
               <div

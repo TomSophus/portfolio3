@@ -79,8 +79,6 @@ a {
   mix-blend-mode: normal;
 }
 
-/* タッチデバイス向けのメディアクエリを削除 */
-
 /* カーソルエフェクトのアニメーション */
 @keyframes cursorPulse {
   0% {
@@ -94,6 +92,18 @@ a {
   }
 }
 
+/* モバイルメニューのアニメーション */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* ホバー時のトランジション効果 */
 a,
 button,
@@ -101,5 +111,32 @@ button,
 .card,
 .feature-card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* モバイル向けのタッチターゲットサイズ調整 */
+@media (max-width: 768px) {
+  button,
+  a,
+  [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* モバイルでのフォントサイズ調整 */
+  h1 {
+    font-size: 28px !important;
+  }
+
+  h2 {
+    font-size: 22px !important;
+  }
+
+  h3 {
+    font-size: 18px !important;
+  }
+
+  p {
+    font-size: 16px !important;
+  }
 }
 
