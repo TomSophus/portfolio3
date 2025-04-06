@@ -12,6 +12,7 @@ export default function AudioPlayer() {
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const [isLoaded, setIsLoaded] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const playerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const checkIfMobile = () => {
@@ -76,12 +77,16 @@ export default function AudioPlayer() {
   }, [volume, isMuted])
 
   // 再生/一時停止の切り替え
-  const togglePlay = () => {
+  const togglePlay = (e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
     setIsPlaying(!isPlaying)
   }
 
   // ミュート切り替え
-  const toggleMute = () => {
+  const toggleMute = (e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
     setIsMuted(!isMuted)
   }
 
@@ -94,24 +99,42 @@ export default function AudioPlayer() {
     }
   }
 
+  // タッチイベントの処理を改善
+  useEffect(() => {
+    const handleTouchStart = (e: TouchEvent) => {
+      if (playerRef.current && playerRef.current.contains(e.target as Node)) {
+        // プレーヤー内のタッチイベントは伝播を止める
+        e.stopPropagation()
+      }
+    }
+
+    document.addEventListener("touchstart", handleTouchStart, { passive: false })
+
+    return () => {
+      document.removeEventListener("touchstart", handleTouchStart)
+    }
+  }, [])
+
   return (
     <div
+      ref={playerRef}
       className="audio-player"
       style={{
         position: "fixed",
         bottom: isMobile ? "15px" : "20px",
-        left: isMobile ? "15px" : "20px",
-        zIndex: 9999, // z-indexを大幅に上げる
+        right: isMobile ? "15px" : "20px", // 左から右に変更
+        zIndex: 99999, // z-indexをさらに上げる
         display: "flex",
         alignItems: "center",
         gap: "10px",
-        background: "rgba(255, 255, 255, 0.9)", // 背景の不透明度を上げる
+        background: "rgba(255, 255, 255, 0.95)", // 背景の不透明度をさらに上げる
         backdropFilter: "blur(10px)",
-        padding: isMobile ? "8px 12px" : "8px 12px",
+        padding: isMobile ? "10px 14px" : "8px 12px", // パディングを増やしてタッチ領域を拡大
         borderRadius: "30px",
-        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)", // シャドウを強調
+        boxShadow: "0 4px 15px rgba(0, 0, 0, 0.2)", // シャドウを強調
         transition: "all 0.3s ease",
         pointerEvents: "auto", // ポインターイベントを明示的に有効化
+        touchAction: "auto", // タッチアクションを明示的に有効化
       }}
       onMouseEnter={() => setShowVolumeControl(true)}
       onMouseLeave={() => setShowVolumeControl(false)}
@@ -120,6 +143,7 @@ export default function AudioPlayer() {
       {/* 再生/一時停止ボタン */}
       <button
         onClick={togglePlay}
+        onTouchStart={togglePlay} // タッチイベントも明示的に処理
         disabled={!isLoaded}
         style={{
           background: "none",
@@ -128,16 +152,18 @@ export default function AudioPlayer() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          width: isMobile ? "44px" : "36px", // モバイルでのタッチ領域を拡大
-          height: isMobile ? "44px" : "36px",
+          width: isMobile ? "48px" : "36px", // タッチ領域をさらに拡大
+          height: isMobile ? "48px" : "36px",
           borderRadius: "50%",
-          backgroundColor: isPlaying ? "rgba(0, 0, 0, 0.05)" : "rgba(0, 0, 0, 0.1)",
+          backgroundColor: isPlaying ? "rgba(0, 0, 0, 0.1)" : "rgba(0, 0, 0, 0.15)", // コントラストを上げる
           transition: "all 0.2s ease",
           pointerEvents: "auto", // ポインターイベントを明示的に有効化
+          touchAction: "manipulation", // タッチアクションを最適化
+          WebkitTapHighlightColor: "transparent", // タップ時のハイライトを無効化
         }}
         aria-label={isPlaying ? "音楽を一時停止" : "音楽を再生"}
       >
-        {isPlaying ? <Pause size={isMobile ? 22 : 18} color="#333" /> : <Play size={isMobile ? 22 : 18} color="#333" />}
+        {isPlaying ? <Pause size={isMobile ? 24 : 18} color="#333" /> : <Play size={isMobile ? 24 : 18} color="#333" />}
       </button>
 
       {/* 音量コントロール */}
@@ -147,12 +173,13 @@ export default function AudioPlayer() {
           alignItems: "center",
           gap: "8px",
           overflow: "hidden",
-          width: showVolumeControl ? (isMobile ? "110px" : "120px") : isMobile ? "44px" : "36px",
+          width: showVolumeControl ? (isMobile ? "120px" : "120px") : isMobile ? "48px" : "36px",
           transition: "width 0.3s ease",
         }}
       >
         <button
           onClick={toggleMute}
+          onTouchStart={toggleMute} // タッチイベントも明示的に処理
           style={{
             background: "none",
             border: "none",
@@ -160,20 +187,22 @@ export default function AudioPlayer() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            width: isMobile ? "44px" : "36px", // モバイルでのタッチ領域を拡大
-            height: isMobile ? "44px" : "36px",
+            width: isMobile ? "48px" : "36px", // タッチ領域をさらに拡大
+            height: isMobile ? "48px" : "36px",
             borderRadius: "50%",
-            backgroundColor: "rgba(0, 0, 0, 0.05)",
+            backgroundColor: "rgba(0, 0, 0, 0.1)",
             flexShrink: 0,
             transition: "all 0.2s ease",
             pointerEvents: "auto", // ポインターイベントを明示的に有効化
+            touchAction: "manipulation", // タッチアクションを最適化
+            WebkitTapHighlightColor: "transparent", // タップ時のハイライトを無効化
           }}
           aria-label={isMuted ? "ミュート解除" : "ミュート"}
         >
           {isMuted || volume === 0 ? (
-            <VolumeX size={isMobile ? 22 : 18} color="#333" />
+            <VolumeX size={isMobile ? 24 : 18} color="#333" />
           ) : (
-            <Volume2 size={isMobile ? 22 : 18} color="#333" />
+            <Volume2 size={isMobile ? 24 : 18} color="#333" />
           )}
         </button>
 
@@ -190,8 +219,9 @@ export default function AudioPlayer() {
             opacity: showVolumeControl ? 1 : 0,
             transition: "opacity 0.3s ease",
             accentColor: "#333",
-            height: isMobile ? "30px" : "auto", // モバイルでタッチしやすく
+            height: isMobile ? "36px" : "auto", // タッチしやすさをさらに向上
             pointerEvents: showVolumeControl ? "auto" : "none", // 表示時のみイベントを有効化
+            touchAction: "manipulation", // タッチアクションを最適化
           }}
           aria-label="音量"
         />

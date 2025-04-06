@@ -7,7 +7,7 @@ export default function CustomCursor() {
   const [hidden, setHidden] = useState(true)
   const [clicked, setClicked] = useState(false)
   const [linkHovered, setLinkHovered] = useState(false)
-  const [isTouchDevice, setIsTouchDevice] = useState(false)
+  const [isTouchDevice, setIsTouchDevice] = useState(true) // デフォルトでtrueに設定
 
   useEffect(() => {
     // タッチデバイスの検出
@@ -25,21 +25,9 @@ export default function CustomCursor() {
       setHidden(false)
     }
 
-    // タッチ位置の追跡（タッチデバイス用）
-    const updateTouchPosition = (e: TouchEvent) => {
-      if (e.touches.length > 0) {
-        setPosition({ x: e.touches[0].clientX, y: e.touches[0].clientY })
-        setHidden(false)
-      }
-    }
-
     // マウスクリック状態を追跡
     const handleMouseDown = () => setClicked(true)
     const handleMouseUp = () => setClicked(false)
-
-    // タッチ開始・終了の追跡
-    const handleTouchStart = () => setClicked(true)
-    const handleTouchEnd = () => setClicked(false)
 
     // リンクやボタンにホバーした時の状態を追跡
     const handleLinkHoverStart = () => setLinkHovered(true)
