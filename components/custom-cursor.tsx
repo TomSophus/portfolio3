@@ -10,12 +10,11 @@ export default function CustomCursor() {
   const [isTouchDevice, setIsTouchDevice] = useState(false)
 
   useEffect(() => {
-    // タッチデバイスの検出（参照用に残しておくが、カーソルは常に表示する）
+    // タッチデバイスの検出
     const checkTouchDevice = () => {
       const isTouchCapable =
         "ontouchstart" in window || navigator.maxTouchPoints > 0 || (navigator as any).msMaxTouchPoints > 0
       setIsTouchDevice(isTouchCapable)
-      // タッチデバイスでもカーソルを表示するため、ここでは何もしない
     }
 
     checkTouchDevice()
@@ -50,53 +49,56 @@ export default function CustomCursor() {
     const handleMouseLeave = () => setHidden(true)
     const handleMouseEnter = () => setHidden(false)
 
-    window.addEventListener("mousemove", updatePosition)
-    window.addEventListener("touchmove", updateTouchPosition)
-    window.addEventListener("mousedown", handleMouseDown)
-    window.addEventListener("mouseup", handleMouseUp)
-    window.addEventListener("touchstart", handleTouchStart)
-    window.addEventListener("touchend", handleTouchEnd)
-    window.addEventListener("mouseleave", handleMouseLeave)
-    window.addEventListener("mouseenter", handleMouseEnter)
+    // イベントリスナーの追加（タッチデバイスでない場合のみ）
+    if (!isTouchDevice) {
+      window.addEventListener("mousemove", updatePosition)
+      window.addEventListener("mousedown", handleMouseDown)
+      window.addEventListener("mouseup", handleMouseUp)
+      window.addEventListener("mouseleave", handleMouseLeave)
+      window.addEventListener("mouseenter", handleMouseEnter)
 
-    // リンクとボタンにイベントリスナーを追加
-    const links = document.querySelectorAll("a, button, [role=button]")
-    links.forEach((link) => {
-      link.addEventListener("mouseenter", handleLinkHoverStart)
-      link.addEventListener("mouseleave", handleLinkHoverEnd)
-      link.addEventListener("touchstart", handleLinkHoverStart)
-      link.addEventListener("touchend", handleLinkHoverEnd)
-    })
-
-    return () => {
-      window.removeEventListener("mousemove", updatePosition)
-      window.removeEventListener("touchmove", updateTouchPosition)
-      window.removeEventListener("mousedown", handleMouseDown)
-      window.removeEventListener("mouseup", handleMouseUp)
-      window.removeEventListener("touchstart", handleTouchStart)
-      window.removeEventListener("touchend", handleTouchEnd)
-      window.removeEventListener("mouseleave", handleMouseLeave)
-      window.removeEventListener("mouseenter", handleMouseEnter)
-
+      // リンクとボタンにイベントリスナーを追加
+      const links = document.querySelectorAll("a, button, [role=button]")
       links.forEach((link) => {
-        link.removeEventListener("mouseenter", handleLinkHoverStart)
-        link.removeEventListener("mouseleave", handleLinkHoverEnd)
-        link.removeEventListener("touchstart", handleLinkHoverStart)
-        link.removeEventListener("touchend", handleLinkHoverEnd)
+        link.addEventListener("mouseenter", handleLinkHoverStart)
+        link.addEventListener("mouseleave", handleLinkHoverEnd)
       })
     }
-  }, [])
 
-  // 実際のカーソルを非表示にするためのスタイルを追加
+    // クリーンアップ
+    return () => {
+      if (!isTouchDevice) {
+        window.removeEventListener("mousemove", updatePosition)
+        window.removeEventListener("mousedown", handleMouseDown)
+        window.removeEventListener("mouseup", handleMouseUp)
+        window.removeEventListener("mouseleave", handleMouseLeave)
+        window.removeEventListener("mouseenter", handleMouseEnter)
+
+        const links = document.querySelectorAll("a, button, [role=button]")
+        links.forEach((link) => {
+          link.removeEventListener("mouseenter", handleLinkHoverStart)
+          link.removeEventListener("mouseleave", handleLinkHoverEnd)
+        })
+      }
+    }
+  }, [isTouchDevice])
+
+  // 実際のカーソルを非表示にするためのスタイルを追加（タッチデバイスでない場合のみ）
   useEffect(() => {
-    // すべてのデバイスでカーソルを非表示にする
-    document.body.style.cursor = "none"
+    if (!isTouchDevice) {
+      document.body.style.cursor = "none"
+    } else {
+      document.body.style.cursor = "auto"
+    }
 
     // クリーンアップ関数
     return () => {
       document.body.style.cursor = "auto"
     }
-  }, [])
+  }, [isTouchDevice])
+
+  // タッチデバイスでは表示しない
+  if (isTouchDevice) return null
 
   return (
     <>
@@ -113,7 +115,7 @@ export default function CustomCursor() {
           backgroundColor: linkHovered ? "rgba(0, 0, 0, 0.5)" : "rgba(0, 0, 0, 0.7)",
           borderRadius: "50%",
           pointerEvents: "none",
-          zIndex: 9999,
+          zIndex: 9990,
           transition: "width 0.2s, height 0.2s, background-color 0.2s, transform 0.01s",
           opacity: hidden ? 0 : 1,
         }}
@@ -132,7 +134,7 @@ export default function CustomCursor() {
           border: `1px solid ${linkHovered ? "rgba(0, 0, 0, 0.7)" : "rgba(0, 0, 0, 0.3)"}`,
           borderRadius: "50%",
           pointerEvents: "none",
-          zIndex: 9998,
+          zIndex: 9989,
           transition: "width 0.3s, height 0.3s, border 0.3s, transform 0.15s ease-out",
           opacity: hidden ? 0 : 1,
         }}

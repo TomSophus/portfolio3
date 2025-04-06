@@ -101,16 +101,17 @@ export default function AudioPlayer() {
         position: "fixed",
         bottom: isMobile ? "15px" : "20px",
         left: isMobile ? "15px" : "20px",
-        zIndex: 1000,
+        zIndex: 9999, // z-indexを大幅に上げる
         display: "flex",
         alignItems: "center",
         gap: "10px",
-        background: "rgba(255, 255, 255, 0.8)",
+        background: "rgba(255, 255, 255, 0.9)", // 背景の不透明度を上げる
         backdropFilter: "blur(10px)",
-        padding: isMobile ? "6px 10px" : "8px 12px",
+        padding: isMobile ? "8px 12px" : "8px 12px",
         borderRadius: "30px",
-        boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
+        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)", // シャドウを強調
         transition: "all 0.3s ease",
+        pointerEvents: "auto", // ポインターイベントを明示的に有効化
       }}
       onMouseEnter={() => setShowVolumeControl(true)}
       onMouseLeave={() => setShowVolumeControl(false)}
@@ -127,15 +128,16 @@ export default function AudioPlayer() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          width: isMobile ? "40px" : "36px",
-          height: isMobile ? "40px" : "36px",
+          width: isMobile ? "44px" : "36px", // モバイルでのタッチ領域を拡大
+          height: isMobile ? "44px" : "36px",
           borderRadius: "50%",
           backgroundColor: isPlaying ? "rgba(0, 0, 0, 0.05)" : "rgba(0, 0, 0, 0.1)",
           transition: "all 0.2s ease",
+          pointerEvents: "auto", // ポインターイベントを明示的に有効化
         }}
         aria-label={isPlaying ? "音楽を一時停止" : "音楽を再生"}
       >
-        {isPlaying ? <Pause size={isMobile ? 20 : 18} color="#333" /> : <Play size={isMobile ? 20 : 18} color="#333" />}
+        {isPlaying ? <Pause size={isMobile ? 22 : 18} color="#333" /> : <Play size={isMobile ? 22 : 18} color="#333" />}
       </button>
 
       {/* 音量コントロール */}
@@ -145,7 +147,7 @@ export default function AudioPlayer() {
           alignItems: "center",
           gap: "8px",
           overflow: "hidden",
-          width: showVolumeControl ? (isMobile ? "100px" : "120px") : isMobile ? "40px" : "36px",
+          width: showVolumeControl ? (isMobile ? "110px" : "120px") : isMobile ? "44px" : "36px",
           transition: "width 0.3s ease",
         }}
       >
@@ -158,19 +160,20 @@ export default function AudioPlayer() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            width: isMobile ? "40px" : "36px",
-            height: isMobile ? "40px" : "36px",
+            width: isMobile ? "44px" : "36px", // モバイルでのタッチ領域を拡大
+            height: isMobile ? "44px" : "36px",
             borderRadius: "50%",
             backgroundColor: "rgba(0, 0, 0, 0.05)",
             flexShrink: 0,
             transition: "all 0.2s ease",
+            pointerEvents: "auto", // ポインターイベントを明示的に有効化
           }}
           aria-label={isMuted ? "ミュート解除" : "ミュート"}
         >
           {isMuted || volume === 0 ? (
-            <VolumeX size={isMobile ? 20 : 18} color="#333" />
+            <VolumeX size={isMobile ? 22 : 18} color="#333" />
           ) : (
-            <Volume2 size={isMobile ? 20 : 18} color="#333" />
+            <Volume2 size={isMobile ? 22 : 18} color="#333" />
           )}
         </button>
 
@@ -188,6 +191,7 @@ export default function AudioPlayer() {
             transition: "opacity 0.3s ease",
             accentColor: "#333",
             height: isMobile ? "30px" : "auto", // モバイルでタッチしやすく
+            pointerEvents: showVolumeControl ? "auto" : "none", // 表示時のみイベントを有効化
           }}
           aria-label="音量"
         />

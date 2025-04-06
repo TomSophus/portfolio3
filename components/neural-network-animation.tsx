@@ -1,9 +1,29 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 
 export default function NeuralNetworkAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const [windowSize, setWindowSize] = useState({
+    width: typeof window !== "undefined" ? window.innerWidth : 0,
+    height: typeof window !== "undefined" ? window.innerHeight : 0,
+  })
+
+  useEffect(() => {
+    // ウィンドウサイズの変更を監視
+    const handleResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      })
+    }
+
+    // 初期サイズを設定
+    handleResize()
+
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -24,8 +44,19 @@ export default function NeuralNetworkAnimation() {
 
     // ノードとエッジの設定
     const nodes: Node[] = []
-    const numberOfNodes = 40
-    const connectionDistance = 150
+
+    // 画面サイズに応じてノード数を調整
+    // 基本のノード数を設定（デスクトップ用）
+    const baseNodeCount = 40
+
+    // 画面の面積に基づいてノード数を調整
+    const screenArea = window.innerWidth * window.innerHeight
+    const referenceArea = 1920 * 1080 // 参照となる標準的なデスクトップサイズ
+
+    // 面積比に基づいてノード数を計算（最小値を設定）
+    const numberOfNodes = Math.max(15, Math.floor(baseNodeCount * (screenArea / referenceArea)))
+
+    const connectionDistance = Math.min(150, window.innerWidth * 0.15) // 画面幅に応じて接続距離も調整
     const nodeSize = 3 // ノードサイズを大きくする
 
     // ノードクラス
@@ -83,7 +114,7 @@ export default function NeuralNetworkAnimation() {
           const distance = Math.sqrt(dx * dx + dy * dy)
           const opacity = 1 - distance / connectionDistance
 
-          ctx.strokeStyle = `rgba(0, 0, 0, ${opacity * 0.25})` // 透明度を上げる
+          ctx.strokeStyle = `rgba(0, 0, 0, ${opacity * 0.3})` // 透明度を調整
           ctx.lineWidth = 1
           ctx.beginPath()
           ctx.moveTo(this.x, this.y)
@@ -95,6 +126,7 @@ export default function NeuralNetworkAnimation() {
 
     // ノードの初期化
     const initNodes = () => {
+      nodes.length = 0 // 既存のノードをクリア
       for (let i = 0; i < numberOfNodes; i++) {
         nodes.push(new Node())
       }
@@ -131,7 +163,7 @@ export default function NeuralNetworkAnimation() {
     return () => {
       window.removeEventListener("resize", resizeCanvas)
     }
-  }, [])
+  }, [windowSize]) // windowSizeが変更されたときに再実行
 
   return (
     <canvas
@@ -143,7 +175,7 @@ export default function NeuralNetworkAnimation() {
         width: "100%",
         height: "100%",
         zIndex: -1,
-        opacity: 0.7, // 透明度を上げる
+        opacity: 0.5, // 透明度を調整
       }}
       aria-hidden="true"
     />
